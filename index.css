@@ -1,0 +1,50 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: white;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #efe9ce;
+}
+.logo {
+    width: 1000px;
+    transition: transform 0.3s ease-in-out; /* Smooth transition effect */
+}
+
+.logo:hover {
+    transform: scale(1.05); /* Slightly enlarges the logo on hover */
+}
+/* Pull-up effect when the page loads */
+.pull-up {
+    opacity: 0;
+    transform: translateY(50px);
+    animation: pullUp 0.5s ease-out forwards;
+}
+
+@keyframes pullUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth pull-up transition when clicking (before navigating) */
+.pull-up-exit {
+    animation: pullUpExit 0.5s ease-in forwards;
+}
+
+@keyframes pullUpExit {
+    to {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}
+
+/* Slight bounce effect when hovering over the logo */
+.bounce-hover {
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-5px);
+}

@@ -1,0 +1,93 @@
+body {
+    background-color: #efe9ce;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: #6b4f3f;
+    transform: translateX(0);
+    transition: transform 0.5s ease-in-out;
+}
+.slide-out {
+    transform: translateX(100%);
+}
+.container {
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.option {
+    background-color: #3c2a22;
+    padding: 80px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    width: 150px;
+}
+
+.option:hover {
+    transform: scale(1.05);
+}
+
+.option img {
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin: 0 auto;
+}
+
+.option p {
+    color: #c4a484;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #3c2a22;
+    padding: 10px 20px;
+}
+
+.logo {
+    height: 50px; /* Adjust size as needed */
+}
+/* Pull-up effect when the page loads */
+.pull-up {
+    opacity: 0;
+    transform: translateY(50px);
+    animation: pullUp 0.5s ease-out forwards;
+}
+/* Slide right animation for Takeout */
+.slide-right {
+    animation: slideRight 0.5s ease-in forwards;
+}
+
+@keyframes slideRight {
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Slide left animation for Dine-in */
+.slide-left {
+    animation: slideLeft 0.5s ease-in forwards;
+}
+
+@keyframes slideLeft {
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}

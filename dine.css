@@ -1,0 +1,174 @@
+body {
+    background-color: #f8f1dc;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: #ffffff;
+}
+
+.container {
+    padding: 20px;
+}
+
+.start-btn {
+    background-color: #6b4f3f;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    float: right;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    background-color: #3c2a22;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #5a4033;
+}
+
+.order-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Change to 4 columns */
+    grid-template-rows: repeat(2, 1fr); /* Add 2 rows */
+    gap: 10px;
+    justify-content: center;
+    background-color: #3c2a22;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.item {
+    background-color: #5a4033;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.item img {
+    width: 130px; /* Increased width */
+    height: 160px; /* Increased height */
+}
+
+
+.order-list {
+    list-style: none; /* Remove default bullets */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Add spacing between items */
+}
+
+.order-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5a3e36; /* Dark brown */
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    width: 90%;
+    margin-top: 20px; 
+    padding-top: 10px; 
+    text-align: center;
+    font-size: 15px;
+
+    
+}
+
+.order-list h2{
+    color: burlywood;
+}
+
+.remove-btn {
+    background: black;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+
+.checkout {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    background-color: #5a4033;
+    padding: 10px;
+}
+
+.total {
+    color: white;
+}
+
+#proceed-checkout {
+    background-color: #c4a484;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content {
+    text-align: center;
+}
+
+.yes-btn {
+    background-color: olive;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.no-btn {
+    background-color: brown;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #3c2a22;
+    padding: 10px 20px;
+}
+
+.logo {
+    height: 50px; /* Adjust size as needed */
+}
+.dine-in-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff; /* Coffee Brown */
+    text-align: center;
+    margin: 0 auto;
+}
