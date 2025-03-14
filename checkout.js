@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const orderListElement = document.getElementById("order-list");
     const totalPriceElement = document.getElementById("total-price");
     const confirmPaymentButton = document.getElementById("confirm-payment");
+    const body = document.body;
 
     // Retrieve order data from localStorage
     const orderList = JSON.parse(localStorage.getItem("orderList")) || [];
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Display total price
     totalPriceElement.textContent = `Total: ₱${totalPrice}`;
 
-    // Confirm Payment Button
+    // Confirm Payment Button with Pull-Down Exit Animation
     confirmPaymentButton.addEventListener("click", function () {
         const paymentMethod = document.querySelector('input[name="payment"]:checked');
         if (!paymentMethod) {
@@ -26,7 +27,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         alert(`Payment confirmed! Thank you for your order. Total: ₱${totalPrice}`);
-        localStorage.clear(); // Clear the order after payment
-        window.location.href = "index.html"; // Redirect to the start page
+
+        // Store order details in localStorage for receipt.html
+        localStorage.setItem("receiptOrderList", JSON.stringify(orderList));
+        localStorage.setItem("receiptTotalPrice", totalPrice);
+
+        // Apply pull-down exit animation before redirecting
+        body.classList.add("pull-down-exit");
+
+        setTimeout(() => {
+            localStorage.removeItem("orderList"); // Clear order list from checkout storage
+            localStorage.removeItem("totalPrice");
+
+            window.location.href = "receipt.html"; // Redirect to receipt page
+        }, 500); // Match animation duration
     });
 });

@@ -3,6 +3,9 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     color: #ffffff;
+    transform: translateX(100%);
+    animation: slideInRight 0.5s ease-in-out forwards;
+
 }
 
 .container {
@@ -171,4 +174,23 @@ body {
     color: #ffffff; /* Coffee Brown */
     text-align: center;
     margin: 0 auto;
+}
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}.slide-right {
+    animation: slideRight 0.5s ease-in forwards;
+}
+
+@keyframes slideRight {
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }

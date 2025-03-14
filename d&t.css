@@ -3,8 +3,8 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     color: #6b4f3f;
-    transform: translateX(0);
-    transition: transform 0.5s ease-in-out;
+    transform: translateY(20px);
+    animation: fadeInSlideUp 0.5s ease-in-out forwards;
 }
 .slide-out {
     transform: translateX(100%);
@@ -89,5 +89,15 @@ h1 {
     to {
         transform: translateX(-100%);
         opacity: 0;
+    }
+}
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

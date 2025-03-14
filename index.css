@@ -8,6 +8,8 @@ body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     background-color: #efe9ce;
+    transform: translateY(20px);
+    animation: fadeInSlideUp 0.5s ease-in-out forwards;
 }
 .logo {
     width: 1000px;
@@ -47,4 +49,14 @@ body {
 .bounce-hover {
     transition: transform 0.3s ease-in-out;
     transform: translateY(-5px);
+}
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

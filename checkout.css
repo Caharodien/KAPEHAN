@@ -1,10 +1,14 @@
-    body {
+body {
     background-color: #f8f1dc;
     font-family: Arial, sans-serif;
     text-align: center;
     color: #6b4f3f;
     margin: 0;
     padding: 20px;
+    transform: translateY(100%);
+    animation: pullUp 0.5s ease-in-out forwards;
+    transform: translateY(0);
+    transition: transform 0.5s ease-in-out;
 }
 
 .container {
@@ -61,4 +65,27 @@ ul li {
 
 #confirm-payment:hover {
     background-color: #5a4033;
+}
+@keyframes pullUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Pull-up animation when exiting */
+.pull-up-exit {
+    animation: slideUpExit 0.5s ease-in-out forwards;
+}
+
+@keyframes slideUpExit {
+    to {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+.pull-down-exit {
+    transform: translateY(100%);
 }
