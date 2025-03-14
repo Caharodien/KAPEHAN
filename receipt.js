@@ -20,5 +20,5 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         localStorage.clear(); // Clear order data after showing receipt
         window.location.href = "index.html"; // Redirect back to home
-    }, 10000); // 10 seconds
+    }, 5000); // 5 seconds
 });
