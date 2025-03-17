@@ -25,7 +25,8 @@ h1 {
     margin-bottom: 20px;
 }
 
-.order-summary, .payment-methods {
+.order-summary,
+.payment-methods {
     margin-bottom: 20px;
 }
 
@@ -53,7 +54,14 @@ ul li {
     margin: 10px 0;
 }
 
-#confirm-payment {
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#confirm-payment,
+#add-more {
     background-color: #6b4f3f;
     color: white;
     padding: 10px 20px;
@@ -63,19 +71,21 @@ ul li {
     font-size: 16px;
 }
 
-#confirm-payment:hover {
+#confirm-payment:hover,
+#add-more:hover {
     background-color: #5a4033;
 }
+
 @keyframes pullUp {
     from {
         transform: translateY(100%);
     }
+
     to {
         transform: translateY(0);
     }
 }
 
-/* Pull-up animation when exiting */
 .pull-up-exit {
     animation: slideUpExit 0.5s ease-in-out forwards;
 }
@@ -86,6 +96,7 @@ ul li {
         opacity: 0;
     }
 }
+
 .pull-down-exit {
     transform: translateY(100%);
 }

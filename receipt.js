@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalPriceElement = document.getElementById("total-price");
 
     // Retrieve order data from localStorage (from checkout)
-    const orderList = JSON.parse(localStorage.getItem("orderList")) || [];
-    const totalPrice = localStorage.getItem("totalPrice") || 0;
+    const orderList = JSON.parse(localStorage.getItem("receiptOrderList")) || [];
+    const totalPrice = localStorage.getItem("receiptTotalPrice") || 0;
 
     // Display order items on receipt
     orderList.forEach(item => {
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Display total price
     totalPriceElement.textContent = `Total: ₱${totalPrice}`;
 
-    // Auto redirect to index.html after 10 seconds
+    // Auto redirect to index.html after 5 seconds
     setTimeout(() => {
         localStorage.clear(); // Clear order data after showing receipt
         window.location.href = "index.html"; // Redirect back to home
