@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Your order is empty. Please add items to proceed.");
             return;
         }
-        window.location.href = "checkout.html";
+        window.location.href = "checkoutD.html";
     });
 
     // Load order from localStorage on page load

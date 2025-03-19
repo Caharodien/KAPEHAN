@@ -1,3 +1,4 @@
+/* Smooth pull-up animation on page load */
 body {
     background-color: #f8f1dc;
     font-family: Arial, sans-serif;
@@ -5,12 +6,11 @@ body {
     color: #6b4f3f;
     margin: 0;
     padding: 20px;
-    transform: translateY(100%);
+    
     animation: pullUp 0.5s ease-in-out forwards;
-    transform: translateY(0);
-    transition: transform 0.5s ease-in-out;
 }
 
+/* Centered container */
 .container {
     max-width: 600px;
     margin: 0 auto;
@@ -20,11 +20,13 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Title */
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
+/* Order summary section */
 .order-summary,
 .payment-methods {
     margin-bottom: 20px;
@@ -49,11 +51,13 @@ ul li {
     margin-top: 10px;
 }
 
+/* Payment section */
 .payment-methods label {
     display: block;
     margin: 10px 0;
 }
 
+/* Buttons */
 .button-group {
     display: flex;
     justify-content: center;
@@ -76,27 +80,46 @@ ul li {
     background-color: #5a4033;
 }
 
+/* Pull-up animation on page enter */
 @keyframes pullUp {
     from {
         transform: translateY(100%);
+        opacity: 0;
     }
-
     to {
         transform: translateY(0);
+        opacity: 1;
     }
 }
 
+/* Pull-up exit animation */
 .pull-up-exit {
     animation: slideUpExit 0.5s ease-in-out forwards;
 }
 
 @keyframes slideUpExit {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
     to {
         transform: translateY(-100%);
         opacity: 0;
     }
 }
 
+/* Pull-down exit animation */
 .pull-down-exit {
-    transform: translateY(100%);
+    animation: slideDownExit 0.5s ease-in-out forwards;
+}
+
+@keyframes slideDownExit {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
 }

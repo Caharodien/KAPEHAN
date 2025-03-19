@@ -50,11 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
         body.classList.add("pull-down-exit");
 
         setTimeout(() => {
-            window.location.href = "dine.html"; // Redirect to menu page
+            window.location.href = "Takeout .html"; // Redirect to menu page
         }, 500);
         
-        setTimeout(() => {
-            window.location.href = "takeout.html"; // Redirect to menu page
-        }, 500);// Match animation duration
+      
     });
 });
