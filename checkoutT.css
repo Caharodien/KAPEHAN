@@ -1,0 +1,102 @@
+body {
+    background-color: #f8f1dc;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: #6b4f3f;
+    margin: 0;
+    padding: 20px;
+    transform: translateY(100%);
+    animation: pullUp 0.5s ease-in-out forwards;
+    transform: translateY(0);
+    transition: transform 0.5s ease-in-out;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.order-summary,
+.payment-methods {
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #5a4033;
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+#total-price {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.payment-methods label {
+    display: block;
+    margin: 10px 0;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#confirm-payment,
+#add-more {
+    background-color: #6b4f3f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#confirm-payment:hover,
+#add-more:hover {
+    background-color: #5a4033;
+}
+
+@keyframes pullUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.pull-up-exit {
+    animation: slideUpExit 0.5s ease-in-out forwards;
+}
+
+@keyframes slideUpExit {
+    to {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+.pull-down-exit {
+    transform: translateY(100%);
+}
