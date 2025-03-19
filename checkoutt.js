@@ -19,19 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // Display total price
     totalPriceElement.textContent = `Total: ₱${totalPrice}`;
 
-    // Confirm Payment Button with Pull-Down Exit Animation
+    // Confirm Payment Button with Automatic Payment Method & Pull-Down Exit Animation
     confirmPaymentButton.addEventListener("click", function () {
-        const paymentMethod = document.querySelector('input[name="payment"]:checked');
-        if (!paymentMethod) {
-            alert("Please select a payment method.");
-            return;
-        }
+        const automaticPaymentMethod = "Cash"; // Automatically set payment method to Cash
 
-        alert(`Payment confirmed! Thank you for your order. Total: ₱${totalPrice}`);
+        alert(`Payment confirmed via ${automaticPaymentMethod}! Thank you for your order. Total: ₱${totalPrice}`);
 
         // Store order details in localStorage for receipt.html
         localStorage.setItem("receiptOrderList", JSON.stringify(orderList));
         localStorage.setItem("receiptTotalPrice", totalPrice);
+        localStorage.setItem("receiptPaymentMethod", automaticPaymentMethod); // Store payment method
 
         // Apply pull-down exit animation before redirecting
         body.classList.add("pull-down-exit");
@@ -44,15 +41,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 500); // Match animation duration
     });
 
-    // Add More Button
+    // Add More Button (Redirect to Menu)
     addMoreButton.addEventListener("click", function () {
         // Animation before going back to menu.html
         body.classList.add("pull-down-exit");
 
         setTimeout(() => {
-            window.location.href = "Takeout .html"; // Redirect to menu page
+            window.location.href = "dine.html"; // Redirect to menu page
         }, 500);
-        
-      
     });
 });
