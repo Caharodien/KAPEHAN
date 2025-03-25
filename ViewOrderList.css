@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 20px;
+}
+
+h1 {
+    color: #343a40;
+    text-align: center;
+}
+
+#orderList {
+    list-style-type: none;
+    padding: 0;
+    max-width: 600px;
+    margin: auto;
+}
+
+.order-item {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-item:nth-child(even) {
+    background-color: #f1f3f5;
+}
+
+.order-details {
+    flex-grow: 1;
+}
+
+.order-actions button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.order-actions button:hover {
+    background-color: #0056b3;
+}
