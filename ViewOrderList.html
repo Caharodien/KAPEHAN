@@ -7,13 +7,28 @@
     <link rel="stylesheet" href="ViewOrderList.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Order List</h1>
-        <button id="sortButton">Sort by Status</button>
-        <ul id="orderList">
-            <!-- Orders will be dynamically inserted here -->
-        </ul>
+    <header>
+        <h1>All Orders</h1>
+
+    </header>
+    
+    <div class="order-list-container">
+        <table id="ordersTable">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Type</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+                <!-- Orders will be inserted here by JavaScript -->
+            </tbody>
+        </table>
     </div>
+
     <script src="ViewOrderList.js"></script>
 </body>
 </html>
