@@ -19,7 +19,7 @@ function saveOrder(orderData) {
 }
 
 // =============================================
-// Main Checkout Logic
+// Main dine-in Checkout Logic
 // =============================================
 document.addEventListener("DOMContentLoaded", function () {
     const orderListElement = document.getElementById("order-list");
@@ -47,15 +47,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // =============================================
     confirmPaymentButton.addEventListener("click", function () {
         const automaticPaymentMethod = "Cash";
+        const orderId = Date.now().toString();
         
         // Create complete order data for history
         const completeOrderData = {
-            id: Date.now(),
-            orderType: "Dine-in",
+            id: orderId,
+            orderType: "Dine-In",  // Explicitly set as Dine-in
             items: orderList.map(item => ({
                 name: item.name,
                 price: item.price,
-                quantity: item.quantity || 1  // Ensure quantity exists
+                quantity: item.quantity || 1
             })),
             total: totalPrice,
             paymentMethod: automaticPaymentMethod,
@@ -64,12 +65,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Save to order history
         if (saveOrder(completeOrderData)) {
-            // Store receipt data separately
+            // Store all receipt data
             localStorage.setItem("receiptOrderList", JSON.stringify(orderList));
             localStorage.setItem("receiptTotalPrice", totalPrice.toFixed(2));
             localStorage.setItem("receiptPaymentMethod", automaticPaymentMethod);
+            localStorage.setItem("receiptOrderId", orderId);
+            localStorage.setItem("receiptOrderTime", completeOrderData.timestamp);
 
-            alert(`Payment confirmed via ${automaticPaymentMethod}!\nTotal: ₱${totalPrice.toFixed(2)}`);
+            alert(`Dine-In order confirmed!\nOrder #${orderId}\nTotal: ₱${totalPrice.toFixed(2)}`);
 
             // Animation before redirect
             body.classList.add("pull-down-exit");
@@ -89,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
     addMoreButton.addEventListener("click", function () {
         body.classList.add("pull-down-exit");
         setTimeout(() => {
-            window.location.href = "dine.html";
+            window.location.href = "dine.html"; // Return to Dine-In menu
         }, 500);
     });
 });
@@ -108,6 +111,6 @@ const orderId = Date.now().toString(); // Same format as your example
 localStorage.setItem("receiptOrderId", orderId);
 // For Dine-in:
 const orderData = {
-    orderType: 'Dine-in',
+    orderType: 'Dine-In',
     // ... other properties
 };

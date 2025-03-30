@@ -96,3 +96,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 500);
     });
 });
+// In your confirmPaymentButton click handler:
+confirmPaymentButton.addEventListener("click", function () {
+    // Generate a consistent timestamp-based ID
+    const orderId = Date.now().toString(); // Convert to string to match your example
+    
+    // Store the ID along with other receipt data
+    localStorage.setItem("receiptOrderId", orderId);
+    
+    // ... rest of your existing code ...
+});
+// When completing an order:
+const orderId = Date.now().toString(); // Same format as your example
+localStorage.setItem("receiptOrderId", orderId);
+// For Dine-in:
+const orderData = {
+    orderType: 'Takeout',
+    // ... other properties
+};
