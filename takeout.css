@@ -1,5 +1,5 @@
 body {
-    background-color: #f8f1dc;
+    background-color: #efe9ce;
     font-family: Arial, sans-serif;
     text-align: center;
     color: #ffffff;
@@ -159,17 +159,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #3c2a22;
+    background-color: #efe9ce;
     padding: 10px 20px;
 }
 
 .logo {
-    height: 50px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
 }
 .dine-in-title {
     font-size: 24px;
     font-weight: bold;
-    color: #ffffff; /* Coffee Brown */
+    color: #6b4f3f; /* Coffee Brown */
     text-align: center;
     margin: 0 auto;
 }

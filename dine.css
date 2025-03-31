@@ -1,11 +1,9 @@
 body {
-    background-color: #f8f1dc;
+    background-color: #efe9ce;
     font-family: Arial, sans-serif;
     text-align: center;
     color: #ffffff;
-    transform: translateX(100%);
-    animation: slideInRight 0.5s ease-in-out forwards;
-
+    animation: slideInLeft 0.5s ease-in-out forwards;
 }
 
 .container {
@@ -161,39 +159,29 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #3c2a22;
+    background-color: #efe9ce;
     padding: 10px 20px;
-
- 
-   
 }
 
 .logo {
-    height: 50px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
 }
 .dine-in-title {
     font-size: 24px;
     font-weight: bold;
-    color: #ffffff; /* Coffee Brown */
+    color: #6b4f3f; /* Coffee Brown */
     text-align: center;
     margin: 0 auto;
 }
-@keyframes slideInRight {
+
+
+@keyframes slideInLeft {
     from {
         opacity: 0;
-        transform: translateX(100%);
+        transform: translateX(-100%);
     }
     to {
         opacity: 1;
         transform: translateX(0);
-    }
-}.slide-right {
-    animation: slideRight 0.5s ease-in forwards;
-}
-
-@keyframes slideRight {
-    to {
-        transform: translateX(100%);
-        opacity: 0;
     }
 }
