@@ -2,7 +2,7 @@ body {
     background-color: #efe9ce;
     font-family: Arial, sans-serif;
     text-align: center;
-    color: #efe9ce;
+    color: #000000;
     transform: translateY(20px);
     animation: fadeInSlideUp 0.5s ease-in-out forwards;
 }
