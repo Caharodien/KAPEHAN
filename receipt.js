@@ -1,103 +1,137 @@
 document.addEventListener("DOMContentLoaded", function() {
     // DOM Elements
-    const orderListElement = document.getElementById("order-list");
-    const totalPriceElement = document.getElementById("total-price");
-    const subtotalPriceElement = document.getElementById("subtotal-price");
-    const orderIdElement = document.getElementById("order-id");
-    const orderDateElement = document.getElementById("order-date");
-    const orderTimeElement = document.getElementById("order-time");
-    const paymentMethodElement = document.getElementById("payment-method");
-    const newOrderButton = document.getElementById("new-order");
+    const elements = {
+        orderList: document.getElementById("order-list"),
+        totalPrice: document.getElementById("total-price"),
+        subtotalPrice: document.getElementById("subtotal-price"),
+        orderId: document.getElementById("order-id"),
+        orderDate: document.getElementById("order-date"),
+        orderTime: document.getElementById("order-time"),
+        paymentMethod: document.getElementById("payment-method"),
+        orderType: document.getElementById("order-type"),
+        newOrderBtn: document.getElementById("new-order"),
+        printReceiptBtn: document.getElementById("print-receipt")
+    };
 
-    // Retrieve order data
-    const orderItems = JSON.parse(localStorage.getItem("receiptOrderList")) || [];
-    const totalPrice = parseFloat(localStorage.getItem("receiptTotalPrice")) || 0;
-    const paymentMethod = localStorage.getItem("receiptPaymentMethod") || "Cash";
-    const orderId = localStorage.getItem("receiptOrderId") || "N/A";
-    const orderTimestamp = localStorage.getItem("receiptOrderTime") || new Date().toISOString();
+    // Try to get order data from multiple possible sources
+    const getOrderData = () => {
+        // First try receiptData (new system)
+        let data = JSON.parse(localStorage.getItem("receiptData"));
+        
+        // Fallback to individual items (legacy system)
+        if (!data) {
+            data = {
+                orderNumber: localStorage.getItem("receiptOrderId") || "N/A",
+                orderType: localStorage.getItem("orderType") || "Dine-in",
+                items: JSON.parse(localStorage.getItem("receiptOrderList") || []),
+                total: parseFloat(localStorage.getItem("receiptTotalPrice") || 0),
+                paymentMethod: localStorage.getItem("receiptPaymentMethod") || "Cash",
+                timestamp: localStorage.getItem("receiptOrderTime") || new Date().toISOString()
+            };
+        }
+        
+        return data;
+    };
 
-    // Format date and time
-    const orderDate = new Date(orderTimestamp);
-    const formattedDate = orderDate.toLocaleDateString('en-PH', { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric' 
-    });
-    const formattedTime = orderDate.toLocaleTimeString('en-PH', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: true 
-    });
+    const orderData = getOrderData();
+
+    // Validate we have basic order data
+    if (!orderData.items || orderData.items.length === 0) {
+        alert("No order data found. Please place an order first.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    // Set order type class for styling
+    const orderType = orderData.orderType || "Dine-in";
+    document.body.classList.add(orderType.toLowerCase() + "-receipt");
+
+    // Formatting functions
+    const formatOrderId = (id) => {
+        if (!id || id === "N/A") return "N/A";
+        if (id.length <= 8) return id;
+        return `${id.substring(0, 4)}...${id.slice(-4)}`;
+    };
+
+    const formatTime = (date) => {
+        try {
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } catch {
+            return "N/A";
+        }
+    };
+
+    const formatDate = (date) => {
+        try {
+            return date.toLocaleDateString('en-PH', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        } catch {
+            return "N/A";
+        }
+    };
+
+    // Process order date/time
+    let orderDate;
+    try {
+        orderDate = new Date(orderData.timestamp);
+    } catch {
+        orderDate = new Date();
+    }
 
     // Display order information
-    orderIdElement.textContent = orderId;
-    orderDateElement.textContent = formattedDate;
-    orderTimeElement.textContent = formattedTime;
-    paymentMethodElement.textContent = paymentMethod;
+    elements.orderId.textContent = formatOrderId(orderData.orderNumber);
+    elements.orderDate.textContent = formatDate(orderDate);
+    elements.orderTime.textContent = formatTime(orderDate);
+    elements.paymentMethod.textContent = orderData.paymentMethod;
+    elements.orderType.textContent = orderType === "Takeout" ? "Takeout" : "Dine-in";
 
-    // Calculate subtotal (assuming no taxes/fees for now)
-    const subtotal = orderItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-    subtotalPriceElement.textContent = `₱${subtotal.toFixed(2)}`;
-    totalPriceElement.textContent = `₱${totalPrice.toFixed(2)}`;
+    // Calculate and display prices
+    const subtotal = orderData.items.reduce((sum, item) => {
+        return sum + (item.price * (item.quantity || 1));
+    }, 0);
+    
+    elements.subtotalPrice.textContent = `₱${subtotal.toFixed(2)}`;
+    elements.totalPrice.textContent = `₱${(orderData.total || subtotal).toFixed(2)}`;
 
     // Display order items
-    orderItems.forEach(item => {
+    elements.orderList.innerHTML = ""; // Clear existing
+    orderData.items.forEach(item => {
         const li = document.createElement("li");
         const quantity = item.quantity || 1;
-        const itemTotal = item.price * quantity;
-        
         li.innerHTML = `
             <span class="item-name">${quantity}x ${item.name}</span>
-            <span class="item-price">₱${itemTotal.toFixed(2)}</span>
+            <span class="item-price">₱${(item.price * quantity).toFixed(2)}</span>
         `;
-        orderListElement.appendChild(li);
+        elements.orderList.appendChild(li);
     });
 
-    // New Order button
-    newOrderButton.addEventListener("click", function() {
-        localStorage.removeItem("orderList");
-        localStorage.removeItem("totalPrice");
+    // Button functionality
+    elements.newOrderBtn.addEventListener("click", () => {
+        // Clear temporary order data
+        ["orderList", "totalPrice", "receiptOrderList", "receiptTotalPrice"].forEach(key => {
+            localStorage.removeItem(key);
+        });
         window.location.href = "index.html";
     });
 
-    // Auto-redirect after 30 seconds (optional)
-    setTimeout(() => {
+    if (elements.printReceiptBtn) {
+        elements.printReceiptBtn.addEventListener("click", () => window.print());
+    }
+
+    // Auto-redirect after 30 seconds (cancelable)
+    const redirectTimer = setTimeout(() => {
         window.location.href = "index.html";
     }, 10000);
-});
-document.addEventListener("DOMContentLoaded", function() {
-    // Get the order ID from localStorage
-    const orderId = localStorage.getItem("receiptOrderId") || "N/A";
-    
-    // Format the ID to match your ViewOrderList display
-    const formattedId = orderId.length > 10 ? orderId.substring(0, 10) + "..." : orderId;
-    
-    // Display it in the receipt
-    document.getElementById("receipt-order-id").textContent = formattedId;
-    
-    // Also display the full ID in console for debugging
-    console.log("Full Order ID:", orderId);
-    
-    // Format and display the date/time
-    const now = new Date();
-    const options = { 
-        month: 'short', 
-        day: 'numeric', 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: true 
-    };
-    document.getElementById("order-date-time").textContent = 
-        now.toLocaleDateString('en-US', options);
-});
-// Update the time formatting in receipt.js
-const formatTimeForReceipt = (date) => {
-    const hours = date.getHours() % 12 || 12;
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
-    return `${hours}.${minutes} ${ampm}`;
-};
 
-// Then use it like this:
-document.getElementById("order-date-time").textContent = 
-    `${formatTimeForReceipt(new Date())}`;
+    const cancelRedirect = () => {
+        clearTimeout(redirectTimer);
+        document.removeEventListener("click", cancelRedirect);
+        document.removeEventListener("keydown", cancelRedirect);
+    };
+
+    document.addEventListener("click", cancelRedirect);
+    document.addEventListener("keydown", cancelRedirect);
+});

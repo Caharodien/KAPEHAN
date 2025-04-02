@@ -18,8 +18,16 @@ function saveOrder(orderData) {
     }
 }
 
+// Generate a 7-digit order number with D prefix
+function generateOrderNumber() {
+    const timestamp = Date.now().toString();
+    // Get last 6 digits of timestamp + random 1 digit to make 7 digits
+    const orderNum = 'D' + timestamp.slice(-6) + Math.floor(Math.random() * 10);
+    return orderNum.slice(0, 8); // Ensure max 7 digits after D prefix
+}
+
 // =============================================
-// Main dine-in Checkout Logic
+// Main Dine-in Checkout Logic
 // =============================================
 document.addEventListener("DOMContentLoaded", function () {
     const orderListElement = document.getElementById("order-list");
@@ -47,12 +55,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // =============================================
     confirmPaymentButton.addEventListener("click", function () {
         const automaticPaymentMethod = "Cash";
-        const orderId = Date.now().toString();
+        const orderNumber = generateOrderNumber(); // Generate formatted order number
         
         // Create complete order data for history
         const completeOrderData = {
-            id: orderId,
-            orderType: "Dine-In",  // Explicitly set as Dine-in
+            id: orderNumber,
+            orderType: "Dine-In",
             items: orderList.map(item => ({
                 name: item.name,
                 price: item.price,
@@ -65,14 +73,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Save to order history
         if (saveOrder(completeOrderData)) {
-            // Store all receipt data
-            localStorage.setItem("receiptOrderList", JSON.stringify(orderList));
-            localStorage.setItem("receiptTotalPrice", totalPrice.toFixed(2));
-            localStorage.setItem("receiptPaymentMethod", automaticPaymentMethod);
-            localStorage.setItem("receiptOrderId", orderId);
-            localStorage.setItem("receiptOrderTime", completeOrderData.timestamp);
+            // Store all receipt data in a single object
+            localStorage.setItem("receiptData", JSON.stringify({
+                orderNumber: orderNumber,
+                orderType: "Dine-In",
+                items: orderList,
+                total: totalPrice,
+                paymentMethod: automaticPaymentMethod,
+                timestamp: completeOrderData.timestamp
+            }));
 
-            alert(`Dine-In order confirmed!\nOrder #${orderId}\nTotal: ₱${totalPrice.toFixed(2)}`);
+            alert(`Dine-In order confirmed!\nTotal: ₱${totalPrice.toFixed(2)}`);
 
             // Animation before redirect
             body.classList.add("pull-down-exit");
@@ -96,21 +107,3 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 500);
     });
 });
-// In your confirmPaymentButton click handler:
-confirmPaymentButton.addEventListener("click", function () {
-    // Generate a consistent timestamp-based ID
-    const orderId = Date.now().toString(); // Convert to string to match your example
-    
-    // Store the ID along with other receipt data
-    localStorage.setItem("receiptOrderId", orderId);
-    
-    // ... rest of your existing code ...
-});
-// When completing an order:
-const orderId = Date.now().toString(); // Same format as your example
-localStorage.setItem("receiptOrderId", orderId);
-// For Dine-in:
-const orderData = {
-    orderType: 'Dine-In',
-    // ... other properties
-};
