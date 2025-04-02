@@ -8,9 +8,17 @@ function saveOrder(orderData) {
             console.warn("Existing orders data was not an array, resetting");
             orders = [];
         }
-        
-        // Generate priority number (next in sequence)
-        const priorityNumber = orders.length + 1;
+
+        // Find the maximum existing priority number
+        let maxPriority = 0;
+        if (orders.length > 0) {
+            maxPriority = Math.max(...orders.map(order => 
+                order.priorityNumber || 0
+            ));
+        }
+
+        // Assign next sequential priority number
+        const priorityNumber = maxPriority + 1;
         orderData.priorityNumber = priorityNumber;
         
         orders.push(orderData);
