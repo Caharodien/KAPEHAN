@@ -60,18 +60,41 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Add item to order list
+    // Add item to order list with quantity tracking
     function addToOrder(name, price) {
+        // Check if item already exists in order
+        const existingItem = orderList.find(item => item.name === name);
+        
+        if (existingItem) {
+            // If exists, increase quantity
+            existingItem.quantity = (existingItem.quantity || 1) + 1;
+            existingItem.price += price; // Update total price for this item
+        } else {
+            // If new, add with quantity 1
+            orderList.push({ 
+                name, 
+                price,
+                quantity: 1 
+            });
+        }
+        
         totalPrice += price;
-        orderList.push({ name, price });
-
         updateOrderList();
     }
 
     // Remove item from order list
     function removeFromOrder(index) {
-        totalPrice -= orderList[index].price; // Subtract price
-        orderList.splice(index, 1); // Remove item from array
+        const item = orderList[index];
+        if (item.quantity > 1) {
+            // If quantity > 1, decrease quantity
+            item.quantity -= 1;
+            item.price -= 39; // Subtract single item price
+            totalPrice -= 39;
+        } else {
+            // If quantity is 1, remove completely
+            totalPrice -= item.price;
+            orderList.splice(index, 1);
+        }
 
         updateOrderList();
     }
@@ -79,13 +102,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update order list display
     function updateOrderList() {
         // Update total price
-        totalPriceElement.textContent = totalPrice;
+        totalPriceElement.textContent = `₱${totalPrice.toFixed(2)}`;
 
         // Update order list UI
         orderItemsElement.innerHTML = "";
         orderList.forEach((item, index) => {
             const li = document.createElement("li");
-            li.innerHTML = `${item.name} - ₱${item.price} <button class="remove-btn" data-index="${index}">❌</button>`;
+            li.innerHTML = `
+                ${item.quantity}x ${item.name} - ₱${item.price.toFixed(2)}
+                <button class="remove-btn" data-index="${index}">❌</button>
+            `;
             orderItemsElement.appendChild(li);
         });
 

@@ -8,10 +8,15 @@ function saveOrder(orderData) {
             console.warn("Existing orders data was not an array, resetting");
             orders = [];
         }
+        
+        // Generate priority number (next in sequence)
+        const priorityNumber = orders.length + 1;
+        orderData.priorityNumber = priorityNumber;
+        
         orders.push(orderData);
         localStorage.setItem('coffeeShopOrders', JSON.stringify(orders));
-        console.log("Order saved to history:", orderData);
-        return true;
+        console.log(`Order #${priorityNumber} saved to history`);
+        return priorityNumber;
     } catch (error) {
         console.error("Error saving order:", error);
         return false;
@@ -55,9 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // =============================================
     confirmPaymentButton.addEventListener("click", function () {
         const automaticPaymentMethod = "Cash";
-        const orderNumber = generateOrderNumber(); // Generate formatted order number
+        const orderNumber = generateOrderNumber();
         
-        // Create complete order data for history
+        // Create complete order data
         const completeOrderData = {
             id: orderNumber,
             orderType: "Dine-In",
@@ -71,24 +76,46 @@ document.addEventListener("DOMContentLoaded", function () {
             timestamp: new Date().toISOString()
         };
 
-        // Save to order history
-        if (saveOrder(completeOrderData)) {
-            // Store all receipt data in a single object
-            localStorage.setItem("receiptData", JSON.stringify({
+        // Save to order history and get priority number
+        const priorityNumber = saveOrder(completeOrderData);
+
+        if (priorityNumber) {
+            // Store all receipt data
+            const receiptData = {
                 orderNumber: orderNumber,
+                priorityNumber: priorityNumber,
                 orderType: "Dine-In",
                 items: orderList,
                 total: totalPrice,
                 paymentMethod: automaticPaymentMethod,
                 timestamp: completeOrderData.timestamp
-            }));
+            };
+            
+            localStorage.setItem("receiptData", JSON.stringify(receiptData));
+            
+            // Also store in overview data for view order list
+            const overviewData = {
+                priorityNumber: priorityNumber,
+                orderNumber: orderNumber,
+                orderType: "Dine-In",
+                items: orderList.map(item => ({
+                    name: item.name,
+                    quantity: item.quantity || 1
+                })),
+                total: totalPrice,
+                timestamp: completeOrderData.timestamp
+            };
+            localStorage.setItem("latestOrderOverview", JSON.stringify(overviewData));
 
-            alert(`Dine-In order confirmed!\nTotal: ₱${totalPrice.toFixed(2)}`);
+            // Update the view order list immediately
+            updateViewOrderList(overviewData);
+
+            alert(`Order #${priorityNumber} confirmed!\n${orderNumber}\nTotal: ₱${totalPrice.toFixed(2)}`);
 
             // Animation before redirect
             body.classList.add("pull-down-exit");
             setTimeout(() => {
-                localStorage.removeItem("orderList"); // Clear current cart
+                localStorage.removeItem("orderList");
                 localStorage.removeItem("totalPrice");
                 window.location.href = "receipt.html";
             }, 500);
@@ -103,7 +130,96 @@ document.addEventListener("DOMContentLoaded", function () {
     addMoreButton.addEventListener("click", function () {
         body.classList.add("pull-down-exit");
         setTimeout(() => {
-            window.location.href = "dine.html"; // Return to Dine-In menu
+            window.location.href = "dine.html";
         }, 500);
     });
 });
+
+// =============================================
+// Update View Order List Function
+// =============================================
+function updateViewOrderList(newOrder) {
+    try {
+        // Get existing orders from view order list
+        let orders = JSON.parse(localStorage.getItem('coffeeShopOrders') || "[]");
+        
+        // Add the new order
+        orders.push(newOrder);
+        
+        // Save back to localStorage
+        localStorage.setItem('coffeeShopOrders', JSON.stringify(orders));
+        
+        // If we're currently on the view order list page, refresh the display
+        if (window.location.pathname.includes('vieworderlist.html')) {
+            displayOrders();
+        }
+    } catch (error) {
+        console.error("Error updating view order list:", error);
+    }
+}
+
+// =============================================
+// Display Orders Function (for vieworderlist.html)
+// =============================================
+function displayOrders() {
+    // Only run if we're on the view order list page
+    if (!window.location.pathname.includes('vieworderlist.html')) return;
+    
+    const orders = JSON.parse(localStorage.getItem('coffeeShopOrders') || '[]');
+    const tableBody = document.getElementById('ordersTableBody');
+    
+    if (!tableBody) return;
+    
+    tableBody.innerHTML = ''; // Clear existing rows
+    
+    if (orders.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="6">No orders found</td></tr>';
+        return;
+    }
+    
+    orders.forEach(order => {
+        const row = document.createElement('tr');
+        
+        // Add class based on order type for styling
+        row.classList.add(order.orderType === 'Takeout' ? 'takeout-order' : 'dinein-order');
+        
+        // Format items list
+        const itemsList = order.items && order.items.length > 0 
+            ? order.items.map(item => `${item.name} (${item.quantity || 1})`).join(', ') 
+            : '';
+        
+        // Format time
+        let timeString = 'N/A';
+        try {
+            const orderTime = new Date(order.timestamp);
+            timeString = orderTime.toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        } catch (e) {
+            console.error('Error formatting time:', e);
+        }
+        
+        // Create type indicator with emojis
+        const typeIndicator = order.orderType === 'Takeout' 
+            ? '🛍️ Takeout' 
+            : '🍽️ Dine-in';
+        
+        row.innerHTML = `
+            <td>${order.priorityNumber || 'N/A'}</td>
+            <td>${order.orderNumber || order.id || 'N/A'}</td>
+            <td class="order-type-cell">${typeIndicator}</td>
+            <td>${itemsList}</td>
+            <td>₱${order.total ? order.total.toFixed(2) : '0.00'}</td>
+            <td>${timeString}</td>
+        `;
+        
+        tableBody.appendChild(row);
+    });
+}
+
+// Initialize display if on view order list page
+if (window.location.pathname.includes('vieworderlist.html')) {
+    document.addEventListener('DOMContentLoaded', displayOrders);
+}
