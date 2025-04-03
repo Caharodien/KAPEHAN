@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     addMoreButton.addEventListener("click", function () {
         body.classList.add("pull-down-exit");
         setTimeout(() => {
-            window.location.href = "takeout.html";
+            window.location.href = "takeoutmenu.html";
         }, 500);
     });
 });

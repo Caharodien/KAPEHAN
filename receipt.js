@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         orderTime: document.getElementById("order-time"),
         paymentMethod: document.getElementById("payment-method"),
         orderType: document.getElementById("order-type"),
+        priorityNumber: document.getElementById("priority-number"),
         newOrderBtn: document.getElementById("new-order"),
         printReceiptBtn: document.getElementById("print-receipt")
     };
@@ -23,10 +24,11 @@ document.addEventListener("DOMContentLoaded", function() {
             data = {
                 orderNumber: localStorage.getItem("receiptOrderId") || "N/A",
                 orderType: localStorage.getItem("orderType") || "Dine-in",
-                items: JSON.parse(localStorage.getItem("receiptOrderList") || []),
+                items: JSON.parse(localStorage.getItem("receiptOrderList") || "[]"),
                 total: parseFloat(localStorage.getItem("receiptTotalPrice") || 0),
                 paymentMethod: localStorage.getItem("receiptPaymentMethod") || "Cash",
-                timestamp: localStorage.getItem("receiptOrderTime") || new Date().toISOString()
+                timestamp: localStorage.getItem("receiptOrderTime") || new Date().toISOString(),
+                priorityNumber: "N/A" // Default if not available
             };
         }
         
@@ -87,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
     elements.orderTime.textContent = formatTime(orderDate);
     elements.paymentMethod.textContent = orderData.paymentMethod;
     elements.orderType.textContent = orderType === "Takeout" ? "Takeout" : "Dine-in";
+    elements.priorityNumber.textContent = orderData.priorityNumber || "N/A";
 
     // Calculate and display prices
     const subtotal = orderData.items.reduce((sum, item) => {
@@ -111,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Button functionality
     elements.newOrderBtn.addEventListener("click", () => {
         // Clear temporary order data
-        ["orderList", "totalPrice", "receiptOrderList", "receiptTotalPrice"].forEach(key => {
+        ["receiptData", "receiptOrderList", "receiptTotalPrice", "receiptOrderId", "orderType", "receiptPaymentMethod", "receiptOrderTime"].forEach(key => {
             localStorage.removeItem(key);
         });
         window.location.href = "index.html";
@@ -124,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Auto-redirect after 30 seconds (cancelable)
     const redirectTimer = setTimeout(() => {
         window.location.href = "index.html";
-    }, 5000);
+    }, 100000);
 
 
 });

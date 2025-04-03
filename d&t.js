@@ -11,10 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     takeoutBtn.addEventListener("click", function () {
-        navigateWithAnimation("takeout.html", "slide-right"); // Takeout slides right
+        navigateWithAnimation("takeoutmenu.html", "slide-right"); // Takeout slides right
     });
 
     dineinBtn.addEventListener("click", function () {
-        navigateWithAnimation("dine.html", "slide-left"); // Dine-in slides left
+        navigateWithAnimation("dinemenu.html", "slide-left"); // Dine-in slides left
     });
 });
