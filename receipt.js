@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Auto-redirect after 30 seconds (cancelable)
     const redirectTimer = setTimeout(() => {
         window.location.href = "index.html";
-    }, 100000);
+    }, 5000);
 
 
 });
