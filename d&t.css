@@ -1,41 +1,73 @@
 body {
     background-color: #efe9ce;
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', Arial, sans-serif;
     text-align: center;
     color: #000000;
     transform: translateY(20px);
     animation: fadeInSlideUp 0.5s ease-in-out forwards;
+    margin: 0;
 }
+
 .slide-out {
     transform: translateX(100%);
 }
+
 .container {
-    margin-top: 50px;
+    margin-top: 30px;
+    padding: 0 20px;
 }
 
 h1 {
-    font-size: 24px;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 40px;
+    color: #3c2a22;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .options {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 40px;
     margin-top: 20px;
 }
 
 .option {
     background-color: #3c2a22;
-    padding: 80px;
-    border-radius: 10px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    padding: 30px 40px 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(60, 42, 34, 0.25);
     cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-    width: 150px;
+    transition: all 0.3s ease;
+    width: 170px;
+    position: relative;
+    overflow: hidden;
 }
 
 .option:hover {
-    transform: scale(1.05);
+    transform: translateY(-10px);
+    box-shadow: 0 12px 28px rgba(60, 42, 34, 0.35);
+}
+
+.option:active {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(60, 42, 34, 0.3);
+}
+
+.option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.option:hover::before {
+    opacity: 1;
 }
 
 .option img {
@@ -43,32 +75,51 @@ h1 {
     height: 150px;
     display: block;
     margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.option:hover img {
+    transform: scale(1.05);
 }
 
 .option p {
-    color: #c4a484;
-    font-size: 18px;
-    margin-top: 10px;
+    color: #e6d2c0;
+    font-size: 22px;
+    font-weight: 500;
+    margin-top: 20px;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.option:hover p {
+    color: #ffffff;
 }
 
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     background-color: #efe9ce;
-    padding: 10px 20px;
+    padding: 15px 20px;
 }
 
 .logo {
-    height: 200px; /* Adjust size as needed */
+    height: 180px;
+    transition: transform 0.3s ease;
 }
-/* Pull-up effect when the page loads */
+
+.logo:hover {
+    transform: rotate(5deg) scale(1.05);
+}
+
 .pull-up {
     opacity: 0;
     transform: translateY(50px);
     animation: pullUp 0.5s ease-out forwards;
 }
-/* Slide right animation for Takeout */
+
 .slide-right {
     animation: slideRight 0.5s ease-in forwards;
 }
@@ -80,7 +131,6 @@ h1 {
     }
 }
 
-/* Slide left animation for Dine-in */
 .slide-left {
     animation: slideLeft 0.5s ease-in forwards;
 }
@@ -91,6 +141,7 @@ h1 {
         opacity: 0;
     }
 }
+
 @keyframes fadeInSlideUp {
     from {
         opacity: 0;
@@ -101,3 +152,26 @@ h1 {
         transform: translateY(0);
     }
 }
+
+@keyframes pullUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add pulsing effect to indicate they're clickable */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(60, 42, 34, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(60, 42, 34, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(60, 42, 34, 0);
+    }
+}
+
+/* Add this to HTML head for better font */
+/* <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"> */

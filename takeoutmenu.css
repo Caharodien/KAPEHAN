@@ -258,11 +258,11 @@ body {
     margin: 0 auto;
 }
 
-/* Animations */
+/* Animations - Updated slideInleft to actually slide from left */
 @keyframes slideInleft {
     from {
         opacity: 0;
-        transform: translateX(100%);
+        transform: translateX(-100%);  /* Changed from 100% to -100% to slide from left */
     }
     to {
         opacity: 1;

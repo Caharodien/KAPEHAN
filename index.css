@@ -4,59 +4,56 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: white;
+    background-color: #efe9ce;
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #efe9ce;
-    transform: translateY(20px);
-    animation: fadeInSlideUp 0.5s ease-in-out forwards;
+    overflow-x: hidden; /* Prevent horizontal scrollbars during animations */
 }
+
 .logo {
-    width: 1000px;
-    transition: transform 0.3s ease-in-out; /* Smooth transition effect */
+    width: 1000px; /* Adjusted from 1000px which might be too large */
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Elastic pop-in effect */
+    transform: scale(0.5); /* Start small */
+    opacity: 0;
+    transition: transform 0.3s ease-in-out; /* Smooth transition for hover */
 }
 
 .logo:hover {
     transform: scale(1.05); /* Slightly enlarges the logo on hover */
 }
-/* Pull-up effect when the page loads */
-.pull-up {
-    opacity: 0;
-    transform: translateY(50px);
-    animation: pullUp 0.5s ease-out forwards;
-}
 
-@keyframes pullUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Smooth pull-up transition when clicking (before navigating) */
-.pull-up-exit {
-    animation: pullUpExit 0.5s ease-in forwards;
-}
-
-@keyframes pullUpExit {
-    to {
+/* Logo pop-in animation when page loads */
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
         opacity: 0;
-        transform: translateY(-50px);
+    }
+    50% {
+        transform: scale(1.1); /* Slightly overshoot for bounce effect */
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
-/* Slight bounce effect when hovering over the logo */
-.bounce-hover {
-    transition: transform 0.3s ease-in-out;
-    transform: translateY(-5px);
+/* Exit animation - shrink and move to top center */
+.exit-animation {
+    animation: shrinkToTop 0.5s ease-in-out forwards;
 }
-@keyframes fadeInSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+
+@keyframes shrinkToTop {
+    0% {
+        transform: scale(1);
+        top: auto;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    100% {
+        transform: scale(0.3);
+        position: absolute;
+        top: 20px;
+        margin: 0 auto;
+        opacity: 0.8;
     }
 }
+
