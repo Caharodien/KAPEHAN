@@ -84,3 +84,56 @@ body {
         opacity: 0;
     }
 }
+@media (max-width: 1200px) {
+    .logo {
+        width: 700px;
+    }
+}
+
+@media (max-width: 992px) {
+    .logo {
+        width: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        justify-content: flex-start;
+        height: auto;
+        padding-top: 20px;
+    }
+
+    .logo {
+        width: 300px;
+    }
+
+    .checkout {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .checkout button {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .container {
+        padding-bottom: 140px; /* more space on small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        width: 250px;
+    }
+
+    .checkout {
+        font-size: 14px;
+        padding: 15px;
+    }
+
+    .checkout button {
+        font-size: 14px;
+    }
+}
