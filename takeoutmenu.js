@@ -16,16 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
     let totalPrice = 0;
     let orderList = [];
 
-    // Page exit animation function
-    function animatePageExit(destination) {
-        // Apply slide-up animation
-        container.style.animation = "slideUpExit 0.5s ease-out forwards";
-        
-        // Wait for animation to complete before navigating
-        setTimeout(() => {
-            window.location.href = destination;
-        }, 500);
-    }
+// Page exit animation function
+function animatePageExit(destination) {
+    // Apply slide-up animation
+    container.style.animation = "slideUpExit 0.5s ease-out forwards";
+    
+    // Wait for animation to complete before navigating
+    setTimeout(() => {
+        window.location.href = destination;
+    }, 500);
+}
 
     // Ensure only HOT menu is visible at the start
     hotMenu.style.display = "grid";
