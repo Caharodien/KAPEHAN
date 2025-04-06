@@ -4,6 +4,9 @@ body {
     text-align: center;
     color: #ffffff;
     animation: slideInRight 0.5s ease-in-out forwards;
+    position: relative;
+    overflow-x: hidden;
+
 }
 
 .container {
@@ -328,4 +331,29 @@ body {
         float: none;
         margin-top: 10px;
     }
+}
+@keyframes slideUpExit {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-30px) scale(0.98);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100%) scale(0.95);
+        opacity: 0;
+    }
+}
+
+.page-exit {
+    animation: slideUpExit 0.5s ease-out forwards;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1000;
 }

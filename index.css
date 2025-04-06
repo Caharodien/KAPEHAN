@@ -7,53 +7,80 @@ body {
     background-color: #efe9ce;
     margin: 0;
     font-family: 'Arial', sans-serif;
-    overflow-x: hidden; /* Prevent horizontal scrollbars during animations */
+    overflow-x: hidden;
+    perspective: 1000px;
 }
 
 .logo {
-    width: 1000px; /* Adjusted from 1000px which might be too large */
-    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Elastic pop-in effect */
-    transform: scale(0.5); /* Start small */
+    width: 1000px; /* Changed from 400px to 1000px */
+    animation: logoEntrance 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+               logoFloat 4s ease-in-out 1.2s infinite alternate;
+    transform-origin: center center;
+    transform: scale(0.2) translateY(100px);
     opacity: 0;
-    transition: transform 0.3s ease-in-out; /* Smooth transition for hover */
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .logo:hover {
-    transform: scale(1.05); /* Slightly enlarges the logo on hover */
+    transform: scale(1.05) rotate(3deg);
+   
 }
 
-/* Logo pop-in animation when page loads */
-@keyframes popIn {
+@keyframes logoEntrance {
     0% {
+        transform: scale(0.2) translateY(100px) rotate(-10deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    40% {
+        transform: scale(1.15) translateY(-20px) rotate(5deg);
+    }
+    60% {
+        transform: scale(0.95) translateY(10px) rotate(-2deg);
+    }
+    80% {
+        transform: scale(1.05) translateY(-5px) rotate(1deg);
+    }
+    100% {
+        transform: scale(1) translateY(0) rotate(0);
+        opacity: 1;
+    }
+}
+
+@keyframes logoFloat {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-8px) rotate(1deg);
+    }
+    50% {
+        transform: translateY(-12px) rotate(-1deg);
+    }
+    75% {
+        transform: translateY(-6px) rotate(0.5deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+/* Enhanced exit animation when logo is clicked */
+.exit-animation {
+    animation: exitLogo 0.6s ease-out forwards !important;
+    position: fixed;
+    z-index: 1000;
+}
+
+@keyframes exitLogo {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
         transform: scale(0.5);
         opacity: 0;
     }
-    50% {
-        transform: scale(1.1); /* Slightly overshoot for bounce effect */
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
 }
-
-/* Exit animation - shrink and move to top center */
-.exit-animation {
-    animation: shrinkToTop 0.5s ease-in-out forwards;
-}
-
-@keyframes shrinkToTop {
-    0% {
-        transform: scale(1);
-        top: auto;
-    }
-    100% {
-        transform: scale(0.3);
-        position: absolute;
-        top: 20px;
-        margin: 0 auto;
-        opacity: 0.8;
-    }
-}
-
