@@ -1,6 +1,6 @@
-/* Base Styles */
+/* Base Styles - with animations */
 body {
-    background-color: white;
+    background-color: #efe9ce;
     font-family: 'Arial', sans-serif;
     color: #5a4033;
     margin: 0;
@@ -9,10 +9,10 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    animation: fadeIn 0.5s ease-in-out;
+    animation: slideInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-/* Receipt Container */
+/* Receipt Container - with exit animation class */
 .receipt-container {
     width: 100%;
     max-width: 380px;
@@ -22,6 +22,33 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Animation Definitions */
+@keyframes slideInUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.95);
+        opacity: 1;
+    }
+    to {
+        transform: scale(1.1);
+        opacity: 0;
+    }
+}
+
+/* Exit animation class */
+.receipt-exit .receipt-container {
+    animation: zoomIn 0.4s ease-out forwards;
+}
 /* Header */
 .receipt-header {
     text-align: center;
@@ -166,14 +193,3 @@ body {
     background-color: #5a4033;
 }
 
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}

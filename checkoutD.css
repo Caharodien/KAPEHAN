@@ -1,12 +1,12 @@
 /* Smooth slide-up animation on page load */
 body {
-    background-color: #f8f1dc;
+    background-color: #efe9ce;
     font-family: Arial, sans-serif;
     text-align: center;
     color: #6b4f3f;
     margin: 0;
     padding: 20px;
-    animation: slideUp 0.5s ease-in-out forwards;
+    animation: pullUp 0.5s ease-in-out forwards;
     position: relative;
     overflow-x: hidden;
     min-height: 100vh;
@@ -24,7 +24,7 @@ body {
 }
 
 /* Slide-up animation */
-@keyframes slideUp {
+@keyframes PullUp {
     from {
         transform: translateY(100%);
         opacity: 0;
@@ -36,7 +36,7 @@ body {
 }
 
 /* Slide-down exit animation */
-@keyframes slideDown {
+@keyframes Pulldown {
     to {
         transform: translateY(100%);
         opacity: 0;
@@ -146,5 +146,20 @@ ul li {
     #confirm-payment,
     #add-more {
         width: 100%;
+    }
+}
+/* Pull-down exit animation */
+.pull-down-exit {
+    animation: slideDownExit 0.5s ease-in-out forwards;
+}
+
+@keyframes slideDownExit {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100%);
+        opacity: 0;
     }
 }

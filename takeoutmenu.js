@@ -173,7 +173,7 @@ function animatePageExit(destination) {
             }, 2000);
             return;
         }
-        animatePageExit("checkoutD.html");
+        animatePageExit("checkoutT.html");
     });
 
     // Load order from localStorage on page load

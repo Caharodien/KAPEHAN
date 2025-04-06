@@ -1,13 +1,15 @@
-/* Smooth pull-up animation on page load */
+/* Smooth slide-up animation on page load */
 body {
-    background-color: #f8f1dc;
+    background-color: #efe9ce;
     font-family: Arial, sans-serif;
     text-align: center;
     color: #6b4f3f;
     margin: 0;
     padding: 20px;
-    
     animation: pullUp 0.5s ease-in-out forwards;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
 /* Centered container */
@@ -18,15 +20,50 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.5s ease-out;
 }
 
-/* Title */
-h1 {
+/* Slide-up animation */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Slide-down exit animation */
+@keyframes slideDown {
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+/* Exit animation class */
+.slide-down-exit .container {
+    animation: slideDown 0.5s ease-in-out forwards;
+}
+
+.slide-down-exit {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+/* Rest of your existing styles remain unchanged */
+.title {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-/* Order summary section */
 .order-summary,
 .payment-methods {
     margin-bottom: 20px;
@@ -51,13 +88,11 @@ ul li {
     margin-top: 10px;
 }
 
-/* Payment section */
 .payment-methods label {
     display: block;
     margin: 10px 0;
 }
 
-/* Buttons */
 .button-group {
     display: flex;
     justify-content: center;
@@ -73,6 +108,7 @@ ul li {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 #confirm-payment:hover,
@@ -80,15 +116,35 @@ ul li {
     background-color: #5a4033;
 }
 
-/* Pull-up animation on page enter */
-@keyframes pullUp {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
+.order-type-banner {
+    background-color: #FFA726;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+.payment-methods p {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 0 15px;
     }
-    to {
-        transform: translateY(0);
-        opacity: 1;
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    #confirm-payment,
+    #add-more {
+        width: 100%;
     }
 }
 
@@ -122,18 +178,4 @@ ul li {
         transform: translateY(100%);
         opacity: 0;
     }
-}
-.order-type-banner {
-    background-color: #FFA726;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-.payment-methods p {
-    padding: 10px;
-    background-color: #f5f5f5;
-    border-radius: 5px;
 }

@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Update the view order list immediately
             updateViewOrderList(overviewData);
 
-            alert(`Order #${priorityNumber} confirmed!\n${orderNumber}\nTotal: ₱${totalPrice.toFixed(2)}`);
+            alert(`Receipt #${priorityNumber} confirmed!\n${orderNumber}\nTotal: ₱${totalPrice.toFixed(2)}`);
 
             // Animation before redirect
             body.classList.add("pull-down-exit");

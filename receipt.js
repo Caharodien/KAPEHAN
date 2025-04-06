@@ -131,3 +131,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 });
+function animateReceiptExit(destination) {
+    document.body.classList.add('receipt-exit');
+    setTimeout(() => {
+        window.location.href = destination;
+    }, 400); // Matches the 0.4s animation duration
+}
+
