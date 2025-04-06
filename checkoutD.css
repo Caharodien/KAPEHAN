@@ -24,7 +24,7 @@ body {
 }
 
 /* Slide-up animation */
-@keyframes PullUp {
+@keyframes slideUp {
     from {
         transform: translateY(100%);
         opacity: 0;
@@ -36,7 +36,7 @@ body {
 }
 
 /* Slide-down exit animation */
-@keyframes Pulldown {
+@keyframes slideDown {
     to {
         transform: translateY(100%);
         opacity: 0;
@@ -116,6 +116,7 @@ ul li {
     background-color: #5a4033;
 }
 
+
 .order-type-banner {
     background-color: #42A5F5;
     color: white;
@@ -125,7 +126,6 @@ ul li {
     margin-bottom: 20px;
     font-weight: bold;
 }
-
 .payment-methods p {
     padding: 10px;
     background-color: #f5f5f5;
@@ -148,6 +148,23 @@ ul li {
         width: 100%;
     }
 }
+
+/* Pull-up exit animation */
+.pull-up-exit {
+    animation: slideUpExit 0.5s ease-in-out forwards;
+}
+
+@keyframes slideUpExit {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
 /* Pull-down exit animation */
 .pull-down-exit {
     animation: slideDownExit 0.5s ease-in-out forwards;
