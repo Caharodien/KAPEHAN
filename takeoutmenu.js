@@ -11,9 +11,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalPriceElement = document.getElementById("total-price");
     const orderItemsElement = document.getElementById("order-items");
     const proceedCheckout = document.getElementById("proceed-checkout");
+    const container = document.querySelector(".container");
 
     let totalPrice = 0;
     let orderList = [];
+
+    // Page exit animation function
+    function animatePageExit(destination) {
+        // Apply slide-up animation
+        container.style.animation = "slideUpExit 0.5s ease-out forwards";
+        
+        // Wait for animation to complete before navigating
+        setTimeout(() => {
+            window.location.href = destination;
+        }, 500);
+    }
 
     // Ensure only HOT menu is visible at the start
     hotMenu.style.display = "grid";
@@ -40,10 +52,10 @@ document.addEventListener("DOMContentLoaded", function () {
         confirmModal.style.display = "block";
     });
 
-    // If Yes is clicked - Redirect to D&T.html
+    // If Yes is clicked - Redirect with slide-up animation
     confirmYes.addEventListener("click", function () {
-        localStorage.clear(); // Clear the order
-        window.location.href = "D&T.html";
+        localStorage.clear();
+        animatePageExit("D&T.html");
     });
 
     // If No is clicked - Close Modal
@@ -57,20 +69,23 @@ document.addEventListener("DOMContentLoaded", function () {
             const itemName = this.querySelector("p").innerText;
             const itemPrice = 39; // Assuming each item costs ₱39
             addToOrder(itemName, itemPrice);
+            
+            // Add click feedback
+            this.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                this.style.transform = "scale(1)";
+            }, 100);
         });
     });
 
     // Add item to order list with quantity tracking
     function addToOrder(name, price) {
-        // Check if item already exists in order
         const existingItem = orderList.find(item => item.name === name);
         
         if (existingItem) {
-            // If exists, increase quantity
-            existingItem.quantity = (existingItem.quantity || 1) + 1;
-            existingItem.price += price; // Update total price for this item
+            existingItem.quantity += 1;
+            existingItem.price += price;
         } else {
-            // If new, add with quantity 1
             orderList.push({ 
                 name, 
                 price,
@@ -80,31 +95,44 @@ document.addEventListener("DOMContentLoaded", function () {
         
         totalPrice += price;
         updateOrderList();
+        
+        // Visual feedback
+        const feedback = document.createElement("div");
+        feedback.className = "order-feedback";
+        feedback.textContent = `+1 ${name}`;
+        document.body.appendChild(feedback);
+        
+        setTimeout(() => {
+            feedback.style.transform = "translateY(-30px)";
+            feedback.style.opacity = "0";
+            setTimeout(() => feedback.remove(), 500);
+        }, 50);
     }
 
     // Remove item from order list
     function removeFromOrder(index) {
         const item = orderList[index];
         if (item.quantity > 1) {
-            // If quantity > 1, decrease quantity
             item.quantity -= 1;
-            item.price -= 39; // Subtract single item price
+            item.price -= 39;
             totalPrice -= 39;
         } else {
-            // If quantity is 1, remove completely
             totalPrice -= item.price;
             orderList.splice(index, 1);
         }
-
         updateOrderList();
     }
 
     // Update order list display
     function updateOrderList() {
-        // Update total price
         totalPriceElement.textContent = `₱${totalPrice.toFixed(2)}`;
-
-        // Update order list UI
+        
+        // Animate price change
+        totalPriceElement.style.transform = "scale(1.1)";
+        setTimeout(() => {
+            totalPriceElement.style.transform = "scale(1)";
+        }, 200);
+        
         orderItemsElement.innerHTML = "";
         orderList.forEach((item, index) => {
             const li = document.createElement("li");
@@ -115,25 +143,37 @@ document.addEventListener("DOMContentLoaded", function () {
             orderItemsElement.appendChild(li);
         });
 
-        // Add event listeners to delete buttons
         document.querySelectorAll(".remove-btn").forEach(button => {
             button.addEventListener("click", function () {
                 removeFromOrder(this.getAttribute("data-index"));
             });
         });
 
-        // Save order in localStorage
         localStorage.setItem("orderList", JSON.stringify(orderList));
         localStorage.setItem("totalPrice", totalPrice);
     }
 
-    // Proceed to checkout
+    // Proceed to checkout with slide-up animation
     proceedCheckout.addEventListener("click", function () {
         if (orderList.length === 0) {
-            alert("Your order is empty. Please add items to proceed.");
+            // Shake animation for empty order
+            proceedCheckout.style.animation = "shake 0.5s";
+            setTimeout(() => {
+                proceedCheckout.style.animation = "";
+            }, 500);
+            
+            const message = document.createElement("div");
+            message.className = "empty-order-message";
+            message.textContent = "Please add items to your order!";
+            this.parentNode.insertBefore(message, this.nextSibling);
+            
+            setTimeout(() => {
+                message.style.opacity = "0";
+                setTimeout(() => message.remove(), 500);
+            }, 2000);
             return;
         }
-        window.location.href = "checkoutT.html";
+        animatePageExit("checkoutD.html");
     });
 
     // Load order from localStorage on page load

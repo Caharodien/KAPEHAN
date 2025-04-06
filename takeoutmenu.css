@@ -1,11 +1,35 @@
+/* Smooth slide-left animation on page load */
 body {
     background-color: #efe9ce;
     font-family: Arial, sans-serif;
     text-align: center;
     color: #ffffff;
-    animation: slideInleft 0.5s ease-in-out forwards;
+    margin: 0;
+    animation: slideInLeft 0.5s ease-in-out forwards;
+    position: relative;
+    overflow-x: hidden;
+
 }
 
+
+/* Slide-left animations */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutLeft {
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
 .container {
     padding: 20px;
     max-width: 1000px;
@@ -16,7 +40,7 @@ body {
     background-color: #6b4f3f;
     color: white;
     padding: 10px 15px;
-    border: none;   
+    border: none;
     cursor: pointer;
     float: right;
     border-radius: 5px;
@@ -116,6 +140,7 @@ body {
     flex-direction: column;
     gap: 10px;
 }
+
 .order-list li {
     display: flex;
     justify-content: space-between;
@@ -169,6 +194,7 @@ body {
     font-weight: bold;
     font-size: 18px;
 }
+
 #proceed-checkout {
     background-color: #3c2a22;
     color: #ffffff;
@@ -243,7 +269,8 @@ body {
     justify-content: space-between;
     background-color: #efe9ce;
     padding: 15px 20px;
-    
+
+
 }
 
 .logo {
@@ -258,35 +285,7 @@ body {
     margin: 0 auto;
 }
 
-/* Animations - Updated slideInleft to actually slide from left */
-@keyframes slideInleft {
-    from {
-        opacity: 0;
-        transform: translateX(-100%);  /* Changed from 100% to -100% to slide from left */
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -55%);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-}
-
-@keyframes slideleft {
-    to {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-}
 
 /* Responsive adjustments */
 @media (max-width: 900px) {
@@ -326,4 +325,29 @@ body {
         float: none;
         margin-top: 10px;
     }
+}
+@keyframes slideUpExit {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-30px) scale(0.98);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100%) scale(0.95);
+        opacity: 0;
+    }
+}
+
+.page-exit {
+    animation: slideUpExit 0.5s ease-out forwards;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1000;
 }
