@@ -12,7 +12,16 @@ header {
     margin-bottom: 25px;
     padding-bottom: 15px;
     border-bottom: 1px solid #e0d6cc;
+    font-size: 24px;
+    font-weight: bold;
+    color: #6b4f3f;
+
+    margin: 0 auto;
 }
+.logo {
+    height: 115px;
+}
+
 
 #backButton {
     padding: 10px 20px;
