@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
         orderType: document.getElementById("order-type"),
         priorityNumber: document.getElementById("priority-number"),
         newOrderBtn: document.getElementById("new-order"),
-        printReceiptBtn: document.getElementById("print-receipt")
+        printReceiptBtn: document.getElementById("print-receipt"),
+        receiptContainer: document.querySelector(".receipt-container")
     };
 
     // Try to get order data from multiple possible sources
@@ -120,21 +121,85 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.href = "index.html";
     });
 
+    // Enhanced Print Functionality with auto-print
+    const printReceipt = () => {
+        // Create print-specific styles
+        const printStyles = `
+            <style>
+                @media print {
+                    body * {
+                        visibility: hidden;
+                    }
+                    .receipt-container, .receipt-container * {
+                        visibility: visible;
+                    }
+                    .receipt-container {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        max-width: 100%;
+                        padding: 0;
+                        margin: 0;
+                        box-shadow: none;
+                    }
+                    .no-print {
+                        display: none !important;
+                    }
+                    @page {
+                        size: auto;
+                        margin: 0mm;
+                    }
+                }
+            </style>
+        `;
+        
+        // Create a clone of the receipt for printing
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Order Receipt - ${orderData.orderNumber}</title>
+                    ${printStyles}
+                </head>
+                <body>
+                    ${elements.receiptContainer.outerHTML}
+                    <script>
+                        setTimeout(function() {
+                            window.print();
+                            window.close();
+                        }, 200);
+                    </script>
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+    };
+
+    // Add print event listener
     if (elements.printReceiptBtn) {
-        elements.printReceiptBtn.addEventListener("click", () => window.print());
+        elements.printReceiptBtn.addEventListener("click", printReceipt);
     }
+
+    // Auto-print the receipt after a short delay
+    setTimeout(() => {
+        printReceipt();
+    }, 500);
 
     // Auto-redirect after 30 seconds (cancelable)
     const redirectTimer = setTimeout(() => {
         window.location.href = "index.html";
-    }, 5000);
+    }, 30000);
 
-
+    // Cancel redirect if user interacts with the page
+    document.addEventListener("click", () => {
+        clearTimeout(redirectTimer);
+    });
 });
+
 function animateReceiptExit(destination) {
     document.body.classList.add('receipt-exit');
     setTimeout(() => {
         window.location.href = destination;
     }, 400); // Matches the 0.4s animation duration
 }
-

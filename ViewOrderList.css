@@ -110,3 +110,22 @@ td.order-type-cell {
         padding: 15px;
     }
 }
+.status-radio-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.status-radio-option {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.status-radio-option input[type="radio"] {
+    margin: 0;
+}
+
+.status-cell {
+    min-width: 250px;
+}
