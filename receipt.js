@@ -122,60 +122,140 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Enhanced Print Functionality with auto-print
-    const printReceipt = () => {
-        // Create print-specific styles
-        const printStyles = `
-            <style>
-                @media print {
-                    body * {
-                        visibility: hidden;
-                    }
-                    .receipt-container, .receipt-container * {
-                        visibility: visible;
-                    }
-                    .receipt-container {
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                        max-width: 100%;
-                        padding: 0;
+  // Enhanced Print Functionality with auto-print
+const printReceipt = () => {
+    // Get the original receipt container
+    const originalContainer = elements.receiptContainer;
+    
+    // Create a new window for printing
+    const printWindow = window.open('', '_blank');
+    
+    // Basic HTML structure with minimal styling
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>Order Receipt</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
                         margin: 0;
-                        box-shadow: none;
+                        padding: 10px;
+                        text-align: center;
                     }
-                    .no-print {
-                        display: none !important;
+                    .receipt {
+                        width: 80mm;
+                        margin: 0 auto;
+                        text-align: center;
                     }
-                    @page {
-                        size: auto;
-                        margin: 0mm;
+                    h1, h2 {
+                        text-align: center;
+                        margin-bottom: 10px;
                     }
-                }
-            </style>
-        `;
-        
-        // Create a clone of the receipt for printing
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
-            <html>
-                <head>
-                    <title>Order Receipt - ${orderData.orderNumber}</title>
-                    ${printStyles}
-                </head>
-                <body>
-                    ${elements.receiptContainer.outerHTML}
-                    <script>
-                        setTimeout(function() {
-                            window.print();
-                            window.close();
-                        }, 200);
-                    </script>
-                </body>
-            </html>
-        `);
-        printWindow.document.close();
-    };
-
+                    .order-meta {
+                        margin-bottom: 15px;
+                    }
+                    .meta-item {
+                        margin-bottom: 5px;
+                    }
+                    ul {
+                        list-style-type: none;
+                        padding: 0;
+                        margin-bottom: 15px;
+                    }
+                    li {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 5px;
+                    }
+                    .total-section {
+                        margin-top: 10px;
+                    }
+                    .total-row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 5px;
+                    }
+                    .grand-total {
+                        font-weight: bold;
+                        border-top: 1px solid #000;
+                        padding-top: 5px;
+                    }
+                    .payment-method {
+                        margin-top: 10px;
+                        margin-bottom: 15px;
+                    }
+                    .footer-logo {
+                        width: 70px;
+                        height: auto;
+                        margin: 10px auto;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="receipt">
+                    <h1>Script & Sip</h1>
+                    <p>Coffee Shop Receipt</p>
+                    
+                    <div class="order-meta">
+                        <div class="meta-item">
+                            <span>Order # ${elements.orderId.textContent}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>Priority # ${elements.priorityNumber.textContent}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>Date: ${elements.orderDate.textContent}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>Time: ${elements.orderTime.textContent}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>Type: ${elements.orderType.textContent}</span>
+                        </div>
+                    </div>
+                    
+                    <h2>Your Order</h2>
+                    <ul>
+                        ${Array.from(document.querySelectorAll('#order-list li')).map(item => 
+                            `<li>
+                                <span>${item.querySelector('.item-name').textContent}</span>
+                                <span>${item.querySelector('.item-price').textContent}</span>
+                            </li>`
+                        ).join('')}
+                    </ul>
+                    
+                    <div class="total-section">
+                        <div class="total-row">
+                            <span>Subtotal</span>
+                            <span>${elements.subtotalPrice.textContent}</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Service Charge</span>
+                            <span>₱0.00</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>Total</span>
+                            <span>${elements.totalPrice.textContent}</span>
+                        </div>
+                    </div>
+                    
+               
+                    <img src="images/logo3.0.png" alt="Logo" class="footer-logo">
+                </div>
+                
+                <script>
+                    // Print after slight delay to ensure everything is loaded
+                    setTimeout(function() {
+                        window.print();
+                        window.close();
+                    }, 300);
+                </script>
+            </body>
+        </html>
+    `);
+    
+    printWindow.document.close();
+};
     // Add print event listener
     if (elements.printReceiptBtn) {
         elements.printReceiptBtn.addEventListener("click", printReceipt);
