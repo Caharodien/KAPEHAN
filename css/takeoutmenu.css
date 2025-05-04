@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     color: #ffffff;
-    animation: slideInRight 0.5s ease-in-out forwards;
+    animation: slideInLeft 0.5s ease-in-out forwards;
     margin: 0;
     padding: 0;
 }
@@ -285,10 +285,10 @@ body {
     margin: 0 auto;
 }
 
-@keyframes slideInRight {
+@keyframes slideInLeft {
     from {
         opacity: 0;
-        transform: translateX(100%);
+        transform: translateX(-100%);
     }
     to {
         opacity: 1;
